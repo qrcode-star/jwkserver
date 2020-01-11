@@ -34,4 +34,4 @@ ALTER TABLE go.jwkeys
 1、git clone https://github.com/qrcode-star/jwkserver.git
 2、CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o jwkserver jwkserver.go
 3、docker build -t jwkserver .
-4、docker run --name jwkserver -p 8080:8080 -d jwkserver
+4、docker run --name jwkserver -p 8080:80 -d jwkserver -p=172.18.24.82
