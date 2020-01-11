@@ -1,15 +1,22 @@
 package pgdb
 
 import (
-	"github.com/gogf/gf/database/gdb"
-	_ "github.com/lib/pq"
+        "errors"
+        "github.com/gogf/gf/database/gdb"
+        "github.com/gogf/gf/os/gcmd"
+        _ "github.com/lib/pq"
+        "jwkserver/library"
 )
 
 func Newdb() (db gdb.DB, err error) {
-	mydb := gdb.ConfigNode{}
-	mydb.Type="pgsql"
-	mydb.LinkInfo = "postgres://pg@172.18.100.57/pg?sslmode=disable"
-	gdb.AddDefaultConfigNode(mydb)
-	db ,err = gdb.New()
-	return db,err
+        mydb := gdb.ConfigNode{}
+        mydb.Type="pgsql"
+        pgserverip:=gcmd.GetOpt("p")
+        if pgserverip == "" {
+                library.CheckErr(errors.New("请设置数据库服务器ip"))
+        }
+        mydb.LinkInfo = "postgres://pg@"+pgserverip+"/pg?sslmode=disable"
+        gdb.AddDefaultConfigNode(mydb)
+        db ,err = gdb.New()
+        return db,err
 }
